@@ -1,0 +1,91 @@
+.afterLogin {
+    display: flex;
+    background-color: #e5e5e5;
+    
+}
+
+.afterLoginLeft {
+    flex: 20%;
+}
+
+.afterLoginRight {
+    flex: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.list{
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.list h1{
+    margin-left: 40px;
+}
+
+.posterImg{
+    /* background-color: rgb(245, 14, 14); */
+    width: 100%;
+    padding-top: 20px;
+}
+
+.posterImg img{
+    margin:auto;
+    display: flex;
+    align-items: center;
+}
+
+
+.listBook{
+    display: flex;
+    width: 92%;
+    flex-direction: row;
+    justify-content: space-between;
+    /* background-color: black; */
+}
+
+/* .listBook button{
+    padding: 0;
+    border: none;
+    background-color: transparent;
+} */
+
+ .listBook .listBook1{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+
+.listBook .listBook1 img{
+    width: 100%;
+}
+/* 
+.listBook1 h3{
+    font-size: 23px;
+    margin-bottom: 2px;
+    margin-top: 20px;
+    margin-left: 8px;
+    background-color: blue;
+    text-align: left;
+}
+
+.listBook1 p{
+    margin-top: 2px;
+    text-align: left;
+    margin-left: 8px;
+} */
+
+.modalBookList{
+    margin-top: 300px; 
+}
+
+.paragraf p{
+    margin-top: 15px;
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+

@@ -1,0 +1,20 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;
+}
+
+.navbar .logoNavbar img{
+    width: 100px;    
+}
+
+.navbar .navProfile .dropdownMenu img{
+    width: 25px;
+    margin-right: 10px;
+}
+
+.navProfile .dropdown-toggle::after{
+    /* display: none !important; */
+    content: none;
+    color: aqua;
+}
