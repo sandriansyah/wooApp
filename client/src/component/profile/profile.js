@@ -1,4 +1,4 @@
-import React,{useContext, useState} from "react";
+import React,{useContext, useEffect, useState} from "react";
 import "./profile.css";
 import Logo from "../../media/Icon.png";
 import ImgProfile from "../../media/Ellipse 1.png";
@@ -8,16 +8,39 @@ import IconLogout from "../../media/logout 1.png";
 import {useNavigate,Link} from "react-router-dom"
 import {SubsContext} from "../../context/subsContext"
 import {ShowModalContext} from "../../context/showModalContext"
+import {UserContext} from "../../context/userContex"
+
+import {API} from "../../config/api"
 
 function Profile() {
 
+  
+
   const [state,dispacth] =useContext(SubsContext)
   const [showModal,setShowModal] =useContext(ShowModalContext)
+  const [user,setUser] =useContext(UserContext)
   
+  console.log(user);
+  // const getUser = async(req,res)=>{
+  //   try {
+  //     const response = await API.get("/user/")
+
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+//  useEffect(()=>{
+//   getUser()
+//  })
 
   const navigate=useNavigate()
 
   function handleLogOut(){
+
+    setUser({
+      type:'LOGOUT',
+    })
     
     dispacth({
       type:'SUBSCRIBED',
@@ -56,11 +79,11 @@ function Profile() {
           <button></button>
           <img src={ImgProfile} alt="" />
         </div>
-        <h3>Egi Ganteng</h3>
+        <h3>{user.user.fullName}</h3>
         <p>
-          {state.isSubs ? <p className="text-success" >Subscribed</p>: <p>not subscribed Yet</p>  }</p>
+          {user.user.isSubs ? <p className="text-success" >Subscribed</p>: <p>not subscribed Yet</p>  }</p>
       </div>
-      <hr />
+      <hr /> 
         <button onClick={handleProfile}>
           <div className="profileIcon">
             <div className="icon">

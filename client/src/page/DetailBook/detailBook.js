@@ -1,15 +1,60 @@
 import "./detailBook.css"
+import { useParams } from "react-router-dom"
+import { useState,useEffect } from "react"
 import Profile from "../../component/profile/profile"
 import CoverBook from "../../media/Rectangle 2.png"
 import IconSaveList from "../../media/saveList.png"
 import IconV from "../../media/V.png"
 import ButtonAddMyList from "../../component/button/buttonAddMyList"
 
+import {API} from "../../config/api"
+
 function DetailBook(){
+
+    const [book,setBook]=useState({
+        title: "", 
+        publicationDate: "", 
+        pages: "", 
+        author: "", 
+        isbn: "", 
+        about: "", 
+        bookFile: "", 
+        imgCover: "",
+    })
+
+    const [title,setTitle]=useState("")
+
+    const {id} = useParams()
+
+    const getDetailBook = async()=>{
+        try {
+            const response = await API.get(`/book/${id}`)
+            setTitle(response.data.book.title)
+            const title = response.data.book.title
+            console.log(title);
+            console.log(response.data.book.title);
+            console.log(response.data.book.publicationDate);
+            console.log(response.data.book.pages);
+            console.log(response.data.book.author);
+            console.log(response.data.book.isbn);
+            console.log(response.data.book.about);  
+            console.log(response.data.book.bookFile);  
+            console.log(response.data.book.imgCover);  
+            // setBook(response.data.data.book)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(()=>{
+        getDetailBook()
+    },[title])
+
+
     return(
         <div className="detailBook">
             <div className="detailBookLeft">
-                <Profile/>
+                <Profile />
             </div>
             <div className="detailBookRight">
                 <div className="informationBook">
@@ -18,7 +63,7 @@ function DetailBook(){
                     </div>
                     <div className="informationBookData">
                         <div className="titleBook">
-                            <h1>Tess On The Road</h1>
+                            <h1>uyuyuyu</h1>
                             <p>Rachel Hartman</p>
                         </div>
                         <div className="rilisBook">

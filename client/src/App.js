@@ -1,4 +1,11 @@
 import "bootstrap/dist/css/bootstrap.min.css"
+
+import React,{useContext,useEffect} from "react";
+import {UserContext} from "./context/userContex"
+import {BrowserRouter as Router,Routes,Route,} from "react-router-dom"
+import {useNavigate } from "react-router-dom"
+
+
 import LandingPage from "./page/landingPage/landingPage";
 import AfterLogin from "./page/afterlogin/afterlogin";
 import Subscribe from "./page/subscribe/subsscribe";
@@ -9,9 +16,64 @@ import ListTrans from "./page/listTrans/listTrans";
 import ProfileActiveSubscribe from "./page/profileActiveSubscribe/profileActiveSubscribe";
 import PrivateSubs from "./page/privateRootPage/privetSubs";
 
-import {BrowserRouter as Router,Routes,Route } from "react-router-dom"
+import {API,setAuthToken} from "./config/api"
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token)
+}
+
 
 function App() {
+
+  // let navigate = useNavigate();
+
+  // // Init user context here ...
+  const [state, dispatch] = useContext(UserContext)
+  console.log(state);
+
+  // // Redirect Auth here ...
+  // useEffect(() => {
+
+    
+  //   if (!state.isLogin) {
+  //     navigate("/")
+  //   } else {
+  //     if (state.user.status == "admin") {
+  //       navigate("/listtrans");
+  //     } else if (state.user.status == "user") {
+  //       navigate("/home");
+  //     }
+  //   }
+  // }, [state])
+
+  const checkUser = async()=>{
+    try {
+      
+      const response = await API.get("/checkauth")
+      if(response.status === 404){
+        return dispatch({
+          type:"AUTH_ERROR"
+        })
+      }
+
+      let payload = response.data.data.user 
+      payload.token = localStorage.token 
+
+      dispatch({
+        type:"USER_SUCCESS",
+        payload
+      })
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    checkUser()
+  }, [])
+
+
   return (
       <Router>
 
@@ -19,7 +81,7 @@ function App() {
           <Route exact path="/" element={<LandingPage/>} />
           <Route exact path="/home" element={<AfterLogin/>} />        
           <Route exact path="/subscribe" element={<Subscribe/>} />
-          <Route exact path="/detailbook" element={<DetailBook/>} />
+          <Route exact path="/detailbook/:id" element={<DetailBook/>} />
           <Route exact path="/readbook" element={<ReadBook/>} />
           <Route exact path="/addbook" element={<AddBook/>} />
           <Route exact path="/listtrans" element={<ListTrans/>} /> 
@@ -33,5 +95,5 @@ function App() {
       </Router>
   );
 }
- 
+
 export default App;

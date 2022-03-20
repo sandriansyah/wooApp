@@ -9,7 +9,7 @@ exports.register= async (req,res)=>{
         fullName:joi.string().min(8).required(),
         email:joi.string().email().min(8).required(),
         password:joi.string().min(8).required(),
-        status:joi.string().required()
+        status:joi.string()
     })
 
     const {error}= schema.validate(req.body)
@@ -42,12 +42,16 @@ exports.register= async (req,res)=>{
             fullName: req.body.fullName,
             email: req.body.email,
             isSubs:"false",
-            status: req.body.status,
+            status: "user",
             password:hashedPassword
         })
 
         const dataToken = {
-            id: createUser.id
+            id:createUser.id,
+            fullName:createUser.fullName,
+            email:createUser.email,
+            status:createUser.status,
+            isSubs:createUser.isSubs
         }
 
         const SEKRET_KEY = process.env.TOKEN_KEY
@@ -56,8 +60,11 @@ exports.register= async (req,res)=>{
         res.status(200).send({
             status:"success",
             data:{
+                id: createUser.id,
                 fullName:createUser.fullName,
                 email: createUser.email,
+                status: createUser.status,
+                isSubs: createUser.isSubs,
                 token
             }
         })
@@ -106,7 +113,11 @@ exports.login= async (req,res)=>{
         }
 
         const dataToken = {
-            id: findingUser.id
+            id:findingUser.id,
+            fullName:findingUser.fullName,
+            email:findingUser.email,
+            status:findingUser.status,
+            isSubs:findingUser.isSubs
         }
 
         const SEKRET_KEY = process.env.TOKEN_KEY
@@ -114,8 +125,11 @@ exports.login= async (req,res)=>{
 
         res.status(200).send({
             data:{
+                id:findingUser.id,
                 fullName: findingUser.fullName,
                 email: findingUser.email,
+                status:findingUser.status,
+                isSubs: findingUser.isSubs,
                 token
             }
         })
@@ -123,6 +137,47 @@ exports.login= async (req,res)=>{
     }catch(error){
         console.log(error)
         res.status(500).send({
+            status:"failed",
+            message:"server error"
+        })
+    }
+}
+
+exports.checkAuth = async(req,res)=>{
+    try {
+        const id = req.user.id
+
+        const dataUser = await user.findOne({
+            where:{
+                id:id
+            },
+            attributes:{
+                exclude:["createdAt","updatedAt","password"]
+            }
+        })
+
+        if(!dataUser){
+            return res.status(404).send({
+                status:"failed"
+            })
+        }
+
+        res.send({
+            status:"success",
+            data:{
+                user:{
+                    id: dataUser.id,
+                    name: dataUser.fullName,
+                    email: dataUser.email,
+                    status: dataUser.status,
+                    isSubs: dataUser.isSubs,
+                }
+            }
+        })
+        
+    } catch (error) {
+        console.log(error);
+        res.send({
             status:"failed",
             message:"server error"
         })

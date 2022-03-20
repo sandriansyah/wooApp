@@ -9,7 +9,7 @@ import { ShowModalContext } from "../../context/showModalContext";
 
 function LandingPage() {
   const [state,dispacth] = useContext(ShowModalContext)
-  console.log(state)
+
 
   return (
     <div className="containerLanding">

@@ -9,17 +9,19 @@ exports.addBook = async (req,res) => {
     try {
 
         const data = req.body
-        console.log(req)
+
+        const pathBookFile = "http://localhost:5000/uploads/bookFile/"
+        const pathImgCover = "http://localhost:5000/uploads/imgCover/"
 
         const newBook = await book.create({
             ...data,
             bookFile: req.files.bookFile[0].filename,
             imgCover: req.files.imgCover[0].filename
         })
- 
+
         const bookData = await book.findOne({
             where:{
-                id: newBook.id
+                id: newBook.id 
             },
             attributes:{
                 exclude:["createdAt","updatedAt"]
@@ -27,20 +29,21 @@ exports.addBook = async (req,res) => {
         })
 
         // let createProducts = JSON.parse(JSON.stringify(bookData)); 
+
+
         // res.send({ 
-        //   status: "Success", 
-        //   ...createProducts, 
-        //   cover: "http://localhost:5000/uploads/" + createProducts.imgCover, 
+        // status: "Success", 
+        // data: bookData,
         // });
 
-        res.send({
+        res.status(200).send({
             status:"success",
             data: bookData
         })
 
     } catch (error) {
         console.log(error)
-        res.send({
+        res.status(400).send({
             status:"failed",
             message:"server error"
         })
@@ -57,7 +60,7 @@ exports.getBooks = async (req,res)=>{
 
         dataBooks = JSON.parse(JSON.stringify(dataBooks))
 
-        const path = "http://localhost:5000/uploads/"
+        const path = "http://localhost:5000/uploads/imgCover/"
 
         dataBooks = dataBooks.map((book)=>{
             return{
@@ -65,14 +68,10 @@ exports.getBooks = async (req,res)=>{
                 imgCover:path + book.imgCover
             }
         })
-
+ 
         res.send({
             status:"success",
-            data : {
-                books:{
-                    dataBooks
-                }
-            }
+            data : dataBooks
         })
     } catch (error) {
         console.log(error)
@@ -86,7 +85,7 @@ exports.getBooks = async (req,res)=>{
 exports.getBook = async(req,res)=>{
     try {
         const {id}=req.params 
-        const dataBook = await book.findOne(
+        let dataBook = await book.findOne(
             {attributes:{
                 exclude:["createdAt","updatedAt"]
             },
@@ -95,11 +94,11 @@ exports.getBook = async(req,res)=>{
             }
         })
 
+        // dataBook= JSON.parse(JSON.stringify(dataBook))
+
         res.send({
             status:"success",
-            data:{
                 book: dataBook
-            }
         })
 
     } catch (error) {

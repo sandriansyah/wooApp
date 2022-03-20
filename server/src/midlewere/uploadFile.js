@@ -5,7 +5,11 @@ exports.uploadFile =(bookFile,imgCover)=>{
 
         destination:function(req,file,cb){
         
-        cb(null,"uploads")
+        if(file.fieldname === bookFile){
+            cb(null,"uploads/bookFile")
+        }else{
+            cb(null,"uploads/imgCover")
+        }
         
         },
         filename:function(req,file,cb){

@@ -106,7 +106,7 @@
     font-weight: bold;
 }
 
-/* .subscribeRight form button {
+.subscribeRight form button {
     width: 80%;
     height: 50px;
     display: flex;
@@ -122,4 +122,4 @@
     color: white;
     text-align: center;
     font-size: 17px;
-} */
+}

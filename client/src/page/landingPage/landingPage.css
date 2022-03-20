@@ -15,13 +15,14 @@
     /* padding-top: 100px; */
     margin-left: 200px;
     width: 470px;
+    margin-top: 0;
 }
 
 .contentLanding p{
     margin-left: 30PX;
     font-size: 20PX;
     margin-top: -80px;
-    margin-bottom: 50PX;
+    margin-bottom: 30PX;
 
 }
 .container .contentLanding img{

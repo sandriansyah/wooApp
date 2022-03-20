@@ -3,7 +3,6 @@ import { createContext,useReducer } from "react";
 export const ShowModalContext = createContext()
 
 const initialState={
-    isLogin : true,
     show:{
     }
 }
@@ -14,12 +13,10 @@ const reducer = (state,action)=>{
     switch(type){
         case 'SHOW_MODAL':
             return{
-                isLogin:true,
                 show:payload
             }
             case 'NOT_SHOW_MODAL':
             return{
-                isLogin : true,
                 show:{}  
             }
         default:

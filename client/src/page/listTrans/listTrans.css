@@ -36,11 +36,14 @@
     height: 55px;
     margin-right: 20px;
     border-bottom: solid 1px rgb(173, 171, 171);
+    text-align: center;
 }
 
 .listTrans .tableListTrans table .rowBody1{
     background-color: white;
     height: 55px;
+    text-align: center;
+    justify-content: center;
     border-bottom: solid 1px rgb(173, 171, 171);
 }
 

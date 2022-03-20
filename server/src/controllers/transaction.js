@@ -3,14 +3,19 @@ const{transaction,user} = require("../../models")
 
 exports.addTransaction =async(req,res)=>{
     try {
-        const dataBody = req.body 
+        const data = req.body 
+        // console.log(req.file);
         const addData = await transaction.create({
-            transferProof: dataBody.transferProof,
+            ...data,
+            transferProof: req.file.filename,
             remainingActive:0,
-            userStatus:"noActive",
+            // userStatus:"noActive",
             paymentStatus:"pending",
-            idUser: dataBody.idUser
+            idUser: req.user.id,
         })
+
+        
+        console.log(req.user);
 
         const dataTransaction = await user.findOne({
             where:{
@@ -37,7 +42,7 @@ exports.addTransaction =async(req,res)=>{
 
     } catch (error) {
         console.log(error);
-        res.status(500).send({
+        res.status(400).send({
             status:"failed",
             message:"server error"
         })

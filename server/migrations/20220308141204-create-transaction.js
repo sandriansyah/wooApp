@@ -11,6 +11,9 @@ module.exports = {
       transferProof: {
         type: Sequelize.STRING
       },
+      numberAccount: {
+        type: Sequelize.STRING
+      },
       remainingActive: {
         type: Sequelize.INTEGER
       },

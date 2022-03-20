@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import { SubsContext } from "../../context/subsContext";
+import { UserContext } from "../../context/userContex";
 import {Outlet,Navigate} from "react-router-dom"
 
 const PrivateSubs = ({element:Component, ...rest}) =>{
 
-    const [state,dispacth]= useContext(SubsContext)
+    const [state,dispacth]= useContext(UserContext)
 
-    return state.isSubs ? <Outlet/> : <Navigate to="/home"/>;
+    return state.user.isSubs ? <Outlet/> : <Navigate to="/home"/>;
 };
 
 export default PrivateSubs
