@@ -9,10 +9,6 @@ exports.addBook = async (req,res) => {
     try {
 
         const data = req.body
-
-        const pathBookFile = "http://localhost:5000/uploads/bookFile/"
-        const pathImgCover = "http://localhost:5000/uploads/imgCover/"
-
         const newBook = await book.create({
             ...data,
             bookFile: req.files.bookFile[0].filename,

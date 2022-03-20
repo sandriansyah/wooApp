@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       })
     }
-  }
+  } 
   profile.init({
     gender: DataTypes.STRING,
     address: DataTypes.TEXT,
