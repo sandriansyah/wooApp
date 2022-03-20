@@ -35,8 +35,6 @@ function ListTrans(){
 
     const approveTrans = async(id,idUser)=>{
         try {
-            
-
             const config = {
                 headers: {
                     "Content-type": "application/json",
@@ -66,7 +64,7 @@ function ListTrans(){
                 <div className="titleTableListTrans">
                     <h5>Incoming Transaction</h5>
                 </div>
-                <table>     
+                <table hover>     
                     <tr className="rowHead" >
                         <th>No</th>
                         <th>User</th>

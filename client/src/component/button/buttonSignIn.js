@@ -91,7 +91,7 @@ function BtnSignIn() {
         console.log(response);
 
         if(response?.status == 200){
-
+  
             setLogin({
                 type:"LOGIN_SUCCESS",
                 payload: response.data.data
@@ -113,11 +113,11 @@ function BtnSignIn() {
         }
 
         //chech status
-        // if(response.data.data.status === "user"){
-        //     navigate("/home")
-        // }else{
-        //     navigate("/listtrans")
-        // }
+        if(response.data.data.status === "user"){
+            navigate("/home")
+        }else{
+            navigate("/listtrans")
+        }
 
         } catch (error) {
             console.log(error);
