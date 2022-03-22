@@ -7,7 +7,7 @@ exports.addTransaction =async(req,res)=>{
         // console.log(req.file);
         const addData = await transaction.create({
             ...data,
-            transferProof: req.file.filename,
+            transferProof: req.file.filename, 
             remainingActive:0,
             // userStatus:"noActive",
             paymentStatus:"pending",
@@ -15,7 +15,7 @@ exports.addTransaction =async(req,res)=>{
         })
 
         
-        console.log(req.user);
+        console.log(req.file);
 
         const dataTransaction = await user.findOne({
             where:{

@@ -1,6 +1,6 @@
 import React,{useState,useContext, useEffect} from "react";
 import {useNavigate} from "react-router-dom"
-import {SubsContext} from "../../context/subsContext"
+// import {SubsContext} from "../../context/subsContext"
 import {UserContext} from "../../context/userContex"
 import {Modal} from "react-bootstrap"
 
@@ -17,7 +17,7 @@ function AfterLogin() {
 
 
   const [user,setUser] = useContext(UserContext)
-  const [state,dispacth] = useContext(SubsContext)
+  // const [state,dispacth] = useContext(SubsContext)
   const [books,setBooks] = useState([])
 
     const navigate=useNavigate()
@@ -28,9 +28,9 @@ function AfterLogin() {
 
       setShow(false);
 
-      if(state.isSubs){
-        navigate("/detailbook")
-      }
+      // if(state.isSubs){
+      //   navigate("/detailbook")
+      // }
     } 
     
     const getBooks = async()=>{
@@ -46,6 +46,10 @@ function AfterLogin() {
     useEffect(()=>{
       getBooks()
     },[])
+
+    const handleDetail = (id) => {
+      navigate(`/bookdetail/${id}`)
+    }
 
 
   return (
@@ -75,7 +79,7 @@ function AfterLogin() {
             {books.map((item) => {
               return(
                 
-                <div key={item.id} className="listBook1 col-3" onClick={()=>{navigate(`/detailbook/${item.id}`)}} >
+                <div key={item.id} className="listBook1 col-3" onClick={() => handleDetail(item.id)} >
                   <img src={item.imgCover} alt="" />
                   <h3>{item.title}</h3>
                   <p>{item.author}</p>    

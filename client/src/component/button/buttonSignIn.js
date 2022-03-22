@@ -48,9 +48,9 @@ function BtnSignIn() {
 
     const navigate = useNavigate()
 
-    const handleSignIn = ()=>{
-        navigate("/home");
-    }
+    // const handleSignIn = ()=>{
+    //     navigate("/home");
+    // }
 
     const handleHere =()=>{
         dispacth({
@@ -103,7 +103,7 @@ function BtnSignIn() {
 
             setMessage(alert)
 
-            navigate("/home")
+            // navigate("/home")
         }else{
             const alert =   <Alert variant="danger" className="py-1">
                                 failed

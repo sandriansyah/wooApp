@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React,{useContext, useState,useEffect} from "react";
 import {useNavigate} from "react-router-dom"
 import "./profileActiveSubscribe.css"
 import Profile from "../../component/profile/profile";
@@ -10,9 +10,18 @@ import AddresIcon from "../../media/addres.png"
 import ImageProfile from "../../media/Rectangle 12.png"
 import MyListBook1 from "../../media/Rectangle 2.png"
 import { MyListBookContext } from "../../context/myListBookContex";
+ 
+// export const myListBook=['hallo']
 
-export const myListBook=['hallo']
+import {API,setAuthToken} from "../../config/api"
+
+if (localStorage.token) {
+    setAuthToken(localStorage.token)
+}
+
 function ProfileActiveSubscribe() {
+
+const [myBooks,setMyBooks] = useState([])
 
 const navigate = useNavigate()
 
@@ -23,7 +32,19 @@ function handleReadBook(){
 const [state,dispacth] = useContext(MyListBookContext)
 // console.log(state);
 
-    console.log(state.dataListBook)
+    const getMyBooks = async()=>{
+        try {
+            const response = await API.get("/myListBook")
+            setMyBooks(response.data.data)
+            console.log(myBooks);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(()=>{
+        getMyBooks()
+    },[])
 
     return (
         // <div className="ProfileActSub">
@@ -104,14 +125,14 @@ const [state,dispacth] = useContext(MyListBookContext)
                         </div>
                         <div className="row d-flex text-center ">
                             
-                                {state.dataListBook.map((item,index)=>{
+                                {myBooks.map((item,index)=>{
                                 console.log(item)
                                 return(
                                     <div onClick={handleReadBook} key={index} className=" col-3">
-                                        <img src={MyListBook1} alt="" />
+                                        <img src={`http://localhost:5000/uploads/imgCover/${item.book.imgCover}`} alt="" />
                                         <div className="text-start ms-3">
-                                            <h3>{item.title}</h3>
-                                            <p >{item.author}</p>
+                                            <h3>{item.book.title}</h3>
+                                            <p >{item.book.author}</p>
                                         </div>
                                     </div>
                                 )                            

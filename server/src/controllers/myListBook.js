@@ -8,12 +8,9 @@ exports.addMyListBook = async (req,res)=>{
             idBook: id,
         })
 
-        console.log(id);
-        console.log(data);
-
-        const getMyListBook = await user.findOne({
+        const getMyListBook = await userListBook.findAll({
             where:{
-                id:data.idUser
+                idUser:data.idUser
             },
             attributes:{
                 exclude:["createdAt","updatedAt"]
@@ -30,6 +27,39 @@ exports.addMyListBook = async (req,res)=>{
         res.send({
             status:"success",
             data: getMyListBook,
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            status:"failed",
+            message:"server error"
+        })
+    }
+}
+
+exports.getUserListBook = async(req,res)=>{
+
+    try {
+        const data = await userListBook.findAll({
+            where:{
+                idUser: req.user.id,
+            }, 
+            attributes:{
+                exclude:["createdAt","updatedAt"]
+            },
+            include:{
+                model:book,
+                as:"book",
+                attributes:{
+                    exclude:["createdAt","updatedAt"]
+                }
+            }
+        })
+
+        res.send({
+            status:"success",
+            data: data
         })
 
     } catch (error) {

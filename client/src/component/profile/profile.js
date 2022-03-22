@@ -6,33 +6,40 @@ import IconProfile from "../../media/user 1.png";
 import IconSubscribe from "../../media/bill 1.png";
 import IconLogout from "../../media/logout 1.png";
 import {useNavigate,Link} from "react-router-dom"
-import {SubsContext} from "../../context/subsContext"
+// import {SubsContext} from "../../context/subsContext"
 import {ShowModalContext} from "../../context/showModalContext"
 import {UserContext} from "../../context/userContex"
 
-import {API} from "../../config/api"
+import {API,setAuthToken} from "../../config/api"
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token)
+}
 
 function Profile() {
 
-  
 
-  const [state,dispacth] =useContext(SubsContext)
+  // const [state,dispacth] =useContext(SubsContext)
   const [showModal,setShowModal] =useContext(ShowModalContext)
   const [user,setUser] =useContext(UserContext)
-  
-  console.log(user);
-  // const getUser = async(req,res)=>{
-  //   try {
-  //     const response = await API.get("/user/")
+  const [dataUser,setDataUser] = useState([])
 
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+  const getUser = async(req,res)=>{
 
-//  useEffect(()=>{
-//   getUser()
-//  })
+    try {
+
+      const response = await API.get("/user") 
+      console.log(response);
+      setDataUser(response.data.data)
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+ useEffect(()=>{
+  getUser()
+ },[])
 
   const navigate=useNavigate()
 
@@ -42,10 +49,10 @@ function Profile() {
       type:'LOGOUT',
     })
     
-    dispacth({
-      type:'SUBSCRIBED',
-      payload:false
-    })
+    // dispacth({
+    //   type:'SUBSCRIBED',
+    //   payload:false
+    // })
 
     setShowModal({
       type:'SHOW_MODAL',
@@ -79,9 +86,9 @@ function Profile() {
           <button></button>
           <img src={ImgProfile} alt="" />
         </div>
-        <h3>{user.user.fullName}</h3>
+        <h3>{dataUser.fullName}</h3>
         <p>
-          {user.user.isSubs ? <p className="text-success" >Subscribed</p>: <p>not subscribed Yet</p>  }</p>
+          {user.user.isSubs=="true" ? <p className="text-success" >Subscribed</p>: <p>not subscribed Yet</p>  }</p>
       </div>
       <hr /> 
         <button onClick={handleProfile}>

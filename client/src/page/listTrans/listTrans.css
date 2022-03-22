@@ -25,9 +25,8 @@
 
 .listTrans .tableListTrans table{
     padding: 20px;
-    width: 80%;
+    width: 90%;
     margin: auto;
-
 }
 
 .listTrans .tableListTrans .rowHead th{
@@ -41,6 +40,14 @@
 
 .listTrans .tableListTrans table .rowBody1{
     background-color: white;
+    height: 55px;
+    text-align: center;
+    justify-content: center;
+    border-bottom: solid 1px rgb(173, 171, 171);
+}
+
+.listTrans .tableListTrans table tr:hover{
+    background-color: rgb(173, 171, 171);
     height: 55px;
     text-align: center;
     justify-content: center;

@@ -7,7 +7,7 @@ const initialState={
     }
 }
 
-const reducer = (state,action)=>{
+const reducer = (state,action)=>{ 
     const{type,payload} = action
 
     switch(type){

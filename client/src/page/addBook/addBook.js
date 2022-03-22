@@ -15,66 +15,6 @@ function AddBook(){
     const [showSuccess,setShowSuccess]= useState(false)
     const [showFailed,setShowFailed]= useState(false)
 
-    // const [form,setForm] =useState({
-    //     title:"",
-    //     publicationDate:"",
-    //     pages:"",
-    //     author:"",
-    //     isbn: "",
-    //     about:"",
-    //     bookFile:"",
-    //     imgCover:""
-    // })
-
-    // // const [bookFile,setBookFile]=useState(null)
-
-    // const handleChange = (e)=>{
-
-    //     setForm({
-    //         ...form,
-    //         [e.target.name]:
-    //         e.target.type === "file" ? e.target.files : e.target.value,
-    //     })
-    //     console.log();
-    // }
-
-    // const handleSubmit= async(e)=>{
-    //     try {
-    //         e.preventDefault()
-
-    //         const config = {
-    //             headers: {
-    //             "Content-type": "multipart/form-data",
-    //             },
-    //         }
-    
-    //         const formData = new FormData()
-    //         formData.set("title",form.title)
-    //         formData.set("publicationDate",form.publicationDate)
-    //         formData.set("pages",form.pages)
-    //         formData.set("author",form.author)
-    //         formData.set("isbn",form.isbn)
-    //         formData.set("about",form.about)
-    //         formData.set("bookFile", form.bookFile[0], form.bookFile[0].name)
-    //         formData.set("imgCover", form.imgCover[0], form.imgCover[0].name)
-
-    //         console.log(formData);
-
-            
-    
-    //         const response = await API.post("/book",FormData,config)
-    //         console.log(response);
-
-    //         // navigate("/addbook")
-
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-
-
-    // }
-
-
     const [form, setForm] = useState({ 
         title: "", 
         publicationDate: "", 
@@ -86,9 +26,10 @@ function AddBook(){
         imgCover: ""
     }); 
 
-    // const handleCloseModal = () => {
-    //     setShowSuccess(false)
-    // }
+    const handleCloseModal = () => {
+        setShowSuccess(false)
+    }
+
     
     const handleChange = (e) => { 
         setForm({ 
@@ -106,7 +47,7 @@ function AddBook(){
             headers: { 
             "Content-type": "multipart/form-data", 
             }, 
-        }; 
+        };  
     
           // Data body 
         const formData = new FormData(); 
@@ -122,13 +63,13 @@ function AddBook(){
         // console.log(formData); 
           // Insert data user to database 
         const response = await API.post("/book", formData, config); 
-        
+
         console.log(response);
 
-        if(response.data.status === "Success"){
+        if(response.status === 200){
             setShowSuccess(true)
         }else{
-            setShowFailed(true)
+            setShowFailed(false)
         }
         
 
@@ -144,7 +85,7 @@ function AddBook(){
     return(
         <div className="addBook">
 
-            {/* <Modal className="mt-5" show={showSuccess} onHide = {handleCloseModal} >
+            <Modal className="mt-5" show={showSuccess} onClick={handleCloseModal} >
                 <ModalBody className=" fw-bold text-primary">
                 congrate . . ! <br/>
                 you have added a new book
@@ -153,7 +94,7 @@ function AddBook(){
 
             <Modal show={showFailed}>
                 failed
-            </Modal> */}
+            </Modal>
 
 
             <nav>

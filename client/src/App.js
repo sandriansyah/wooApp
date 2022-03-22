@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 
 import React,{useContext,useEffect} from "react";
 import {UserContext} from "./context/userContex"
-import {BrowserRouter as Router,Routes,Route,} from "react-router-dom"
+import {BrowserRouter as Router,Routes,Route,Link} from "react-router-dom"
 import {useNavigate } from "react-router-dom"
 
 
@@ -14,7 +14,7 @@ import ReadBook from "./page/readBook/readBook";
 import AddBook from "./page/addBook/addBook";
 import ListTrans from "./page/listTrans/listTrans";
 import ProfileActiveSubscribe from "./page/profileActiveSubscribe/profileActiveSubscribe";
-import PrivateSubs from "./page/privateRootPage/privetSubs";
+// import PrivateSubs from "./page/privateRootPage/privetSubs";
 
 import {API,setAuthToken} from "./config/api"
 
@@ -25,26 +25,27 @@ if (localStorage.token) {
 
 function App() {
 
-  // let navigate = useNavigate();
+  let navigate = useNavigate();
 
   // // Init user context here ...
   const [state, dispatch] = useContext(UserContext)
   console.log(state);
 
   // // Redirect Auth here ...
-  // useEffect(() => {
+  useEffect(() => {
 
     
-  //   if (!state.isLogin) {
-  //     navigate("/")
-  //   } else {
-  //     if (state.user.status == "admin") {
-  //       navigate("/listtrans");
-  //     } else if (state.user.status == "user") {
-  //       navigate("/home");
-  //     }
-  //   }
-  // }, [state])
+    if (!state.isLogin) {
+      navigate("/")
+    } 
+    // else {
+    //   if (state.user.status == "admin") {
+    //     navigate("/listtrans");
+    //   } else if (state.user.status == "user") {
+    //     navigate("/home");
+    //   }
+    //  }
+  }, [state])
 
   const checkUser = async()=>{
     try {
@@ -75,24 +76,30 @@ function App() {
 
 
   return (
-      <Router>
+      // <Router>
 
+      <div>
+    
         <Routes>
+
           <Route exact path="/" element={<LandingPage/>} />
           <Route exact path="/home" element={<AfterLogin/>} />        
           <Route exact path="/subscribe" element={<Subscribe/>} />
-          <Route exact path="/detailbook/:id" element={<DetailBook/>} />
+          <Route exact path="/bookdetail/:id" element={<DetailBook/>} />
           <Route exact path="/readbook" element={<ReadBook/>} />
           <Route exact path="/addbook" element={<AddBook/>} />
-          <Route exact path="/listtrans" element={<ListTrans/>} /> 
-                  
-          <Route exact path="/" element={<PrivateSubs/>} >
-            <Route exact path="/profile" element={<ProfileActiveSubscribe/>} />            
-          </Route>
+          <Route exact path="/listtrans" element={<ListTrans/>} />  
+
+          <Route exact path="/profile" element={<ProfileActiveSubscribe/>} /> 
+
+
+          {/* <Route exact path="/" element={<PrivateSubs/>} >
+                       
+          </Route> */}
 
         </Routes>
-
-      </Router>
+        </div>
+      // </Router>
   );
 }
 

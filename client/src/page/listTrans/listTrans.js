@@ -1,6 +1,6 @@
 import "./listTrans.css"
 import Navbar from "../../component/navbar/navbar"
-import{Dropdown} from "react-bootstrap"
+import{Dropdown,Table} from "react-bootstrap"
 
 import {API} from "../../config/api"
 import { useState,useEffect } from "react"
@@ -14,6 +14,12 @@ function ListTrans(){
         remainingActive:30,
         paymentStatus:"approve",
     }) 
+
+    const [cancel,setCancel] = useState({
+        userStatus:"",
+        remainingActive:0,
+        paymentStatus:"",
+    })
 
     // const [idTrans,setIdTrans] = useState(null)
     // console.log(idTrans);
@@ -44,12 +50,38 @@ function ListTrans(){
             const response = await API.patch(`/transaction/${id}`,detailTrans,config) 
             // const response = await API.patch(`/transaction/${id}`,detailTrans,config) 
             console.log(response);
+            getTransaction()
             Navigate("/listtrans")
+
+            
 
         } catch (error) {
             console.log(error);
         }
     }
+
+    const cancelTrans = async(id,idUser)=>{
+        try {
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                },
+            };
+
+            const response = await API.patch(`/transaction/${id}`,cancel,config) 
+            // const response = await API.patch(`/transaction/${id}`,detailTrans,config) 
+            console.log(response);
+            getTransaction()
+            Navigate("/listtrans")
+
+            
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    
 
     // useEffect(()=>{ 
     //     approveTrans()
@@ -64,7 +96,7 @@ function ListTrans(){
                 <div className="titleTableListTrans">
                     <h5>Incoming Transaction</h5>
                 </div>
-                <table hover>     
+                <table>     
                     <tr className="rowHead" >
                         <th>No</th>
                         <th>User</th>
@@ -75,7 +107,6 @@ function ListTrans(){
                         <th>Status Payment</th>
                         <th>Action</th>
                     </tr>
-
                 
                 {transaction.map((item,index)=>{
                     let number = index + 1
@@ -94,7 +125,7 @@ function ListTrans(){
                         <td>
                             {item.paymentStatus =="approve"?
                             <p className="my-0 text-success fw-bold" >Approve</p>:
-                            <p className="my-0 text-warning fw-bold" >Pending ..</p> }
+                            <p className="my-0 text-danger fw-bold" >Cancel</p> }
                         </td>
                         <td>
                             <Dropdown>
@@ -104,7 +135,7 @@ function ListTrans(){
 
                                 <Dropdown.Menu>
                                     <Dropdown.Item onClick={()=>{ approveTrans(item.id,item.idUser)}} style={{color:"#0ACF83",fontWeight:"bold"}} >Approved</Dropdown.Item>
-                                    <Dropdown.Item style={{color:"red",fontWeight:"bold"}}>Cancel</Dropdown.Item>
+                                    <Dropdown.Item onClick={()=>{ cancelTrans(item.id,item.idUser)}} style={{color:"red",fontWeight:"bold"}}>Cancel</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </td>
@@ -112,9 +143,6 @@ function ListTrans(){
                     )
                     
                 })}
-
-                    
-
                 </table>
             
             </div>

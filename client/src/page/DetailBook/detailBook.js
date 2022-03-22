@@ -8,6 +8,7 @@ import IconV from "../../media/V.png"
 import ButtonAddMyList from "../../component/button/buttonAddMyList"
 
 import {API} from "../../config/api"
+import { dataBook } from "../fakeData"
 
 function DetailBook(){
 
@@ -22,25 +23,18 @@ function DetailBook(){
         imgCover: "",
     })
 
-    const [title,setTitle]=useState("")
+    // const [dataBook,setDataBook]=useState("")
 
     const {id} = useParams()
 
     const getDetailBook = async()=>{
         try {
-            const response = await API.get(`/book/${id}`)
-            setTitle(response.data.book.title)
-            const title = response.data.book.title
-            console.log(title);
-            console.log(response.data.book.title);
-            console.log(response.data.book.publicationDate);
-            console.log(response.data.book.pages);
-            console.log(response.data.book.author);
-            console.log(response.data.book.isbn);
-            console.log(response.data.book.about);  
-            console.log(response.data.book.bookFile);  
-            console.log(response.data.book.imgCover);  
-            // setBook(response.data.data.book)
+            const datacoy = await API.get(`/book/${id}`)
+            // setTitle(response.data.book.title)
+            console.log(datacoy.data.book);
+            setBook(datacoy.data.book)
+            
+            
         } catch (error) {
             console.log(error);
         }
@@ -48,7 +42,7 @@ function DetailBook(){
 
     useEffect(()=>{
         getDetailBook()
-    },[title])
+    },[])
 
 
     return(

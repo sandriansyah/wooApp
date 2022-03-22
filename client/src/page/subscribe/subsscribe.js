@@ -6,9 +6,12 @@ import {Button} from "react-bootstrap"
 // import BtnSendSubs from "../../component/button/buttonSendSubscribe"
 import { UserContext } from "../../context/userContex";
 
-import {API} from "../../config/api"
+import {API,setAuthToken} from "../../config/api"
 import { useContext, useState,useEffect } from "react";
 
+if (localStorage.token) {
+  setAuthToken(localStorage.token)
+}
 
 function Subscribe() {
 
@@ -17,7 +20,7 @@ function Subscribe() {
 
   const [form,setForm] = useState({
     numberAccount:"",
-    fileProof:"",
+    transferProof:"",
   })
 
   const handleChange = (e)=>{
@@ -42,9 +45,16 @@ function Subscribe() {
 
     const formData = new FormData();
     formData.set("numberAccount",form.numberAccount);
-    formData.set("fileProof",form.fileProof[0].name);
+    formData.set("transferProof",form.transferProof[0],form.transferProof[0].name);
+
+   
+    console.log(form.numberAccount);
+    console.log(form.transferProof[0].name);
+    // transferProof
+    console.log(formData);
 
     const response = await API.post("/transaction",formData,config)
+    console.log(response);
 
 
     } catch (error) {
@@ -83,7 +93,7 @@ function Subscribe() {
             />
             <label>
               Attache proof of transfer
-              <input className="fileInput" type="file" name="fileProof" onChange={handleChange}/>
+              <input className="fileInput" type="file" name="transferProof" onChange={handleChange}/>
               <img src={ImgFile} alt="" />
             </label>
           </div>

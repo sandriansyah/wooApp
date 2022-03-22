@@ -41,7 +41,6 @@ exports.register= async (req,res)=>{
         const createUser = await user.create({
             fullName: req.body.fullName,
             email: req.body.email,
-            isSubs:"false",
             status: "user",
             password:hashedPassword
         })
@@ -160,7 +159,7 @@ exports.checkAuth = async(req,res)=>{
             return res.status(404).send({
                 status:"failed"
             })
-        }
+        } 
 
         res.send({
             status:"success",
