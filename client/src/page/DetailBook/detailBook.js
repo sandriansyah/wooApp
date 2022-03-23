@@ -6,11 +6,14 @@ import CoverBook from "../../media/Rectangle 2.png"
 import IconSaveList from "../../media/saveList.png"
 import IconV from "../../media/V.png"
 import ButtonAddMyList from "../../component/button/buttonAddMyList"
+import { useNavigate } from "react-router-dom"
 
 import {API} from "../../config/api"
 import { dataBook } from "../fakeData"
 
 function DetailBook(){
+
+    const navigate = useNavigate()
 
     const [book,setBook]=useState({
         title: "", 
@@ -22,17 +25,17 @@ function DetailBook(){
         bookFile: "", 
         imgCover: "",
     })
-
-    // const [dataBook,setDataBook]=useState("")
+    const [myBook,setMyBook] = useState({})
 
     const {id} = useParams()
 
     const getDetailBook = async()=>{
         try {
-            const datacoy = await API.get(`/book/${id}`)
+            
+            const response = await API.get(`/book/${id}`)
             // setTitle(response.data.book.title)
-            console.log(datacoy.data.book);
-            setBook(datacoy.data.book)
+            // console.log(response.data.book);
+            setBook(response.data.book)
             
             
         } catch (error) {
@@ -40,10 +43,18 @@ function DetailBook(){
         }
     }
 
+    const getMyList =async()=>{
+
+        const response = await API.get(`/findbook/${id}`)
+        console.log(response.data.data);
+        setMyBook(response.data.data)
+        // console.log(myBook);
+    }
+
     useEffect(()=>{
         getDetailBook()
+        getMyList()
     },[])
-
 
     return(
         <div className="detailBook">
@@ -53,45 +64,42 @@ function DetailBook(){
             <div className="detailBookRight">
                 <div className="informationBook">
                     <div className="informationBookCover">
-                        <img src={CoverBook} alt="" />
+                        <img src={book.imgCover} alt="" />
                     </div>
                     <div className="informationBookData">
                         <div className="titleBook">
-                            <h1>uyuyuyu</h1>
-                            <p>Rachel Hartman</p>
+                            <h1>{book.title}</h1>
+                            <p>{book.author}</p>
                         </div>
                         <div className="rilisBook">
                             <h6>Publication Date</h6>
-                            <p>April 2020</p>
+                            <p>{book.publicationDate}</p>
                         </div>
                         <div className="pagesBook">
                             <h6>Pages</h6>
-                            <p>436</p>
+                            <p>{book.pages}</p>
                         </div>
                         <div className="isbnBook">
                             <h6>ISBN</h6>
-                            <p>9781789807554</p>
+                            <p>{book.isbn}</p>
                         </div>
                     </div>
                 </div>
                 <div className="aboutBook">
                     <h2>About This Book</h2>
-                    <p>In the medieval kingdom of Goredd, women are expected to be ladies, men are their protectors, and dragons get to be whomever they want. Tess, stubbornly, is a troublemaker. You can’t make a scene at your sister’s wedding and break a relative’s nose with one punch (no matter how pompous he is) and not suffer the consequences. As her family plans to send her to a nunnery, Tess yanks on her boots and sets out on a journey across the Southlands, alone and pretending to be a boy.
-                    <br />
-                    <br />
-                    Where Tess is headed is a mystery, even to her. So when she runs into an old friend, it’s a stroke of luck. This friend is a quigutl—a subspecies of dragon—who gives her both a purpose and protection on the road. But Tess is guarding a troubling secret. Her tumultuous past is a heavy burden to carry, and the memories she’s tried to forget threaten to expose her to the world in more ways than one.
-                    <br />
-                    <br />
-                    Returning to the fascinating world she created in the award-winning and New York Times bestselling Seraphina, Rachel Hartman introduces readers to a new character and a new quest, pushing the boundaries of genre once again in this wholly original fantasy.
-                    </p>
+                    <p>{book.about}</p>
                 </div>
-                <div className="btnDetailBook">
-                    <ButtonAddMyList/>
+                <div className="btnDetailBook mt-5">
+
+                    {myBook ? null : <ButtonAddMyList idBook={book.id}/>}
+
+                    
                     {/* <button className="btnDetailBook1" >Add My List <img src={IconSaveList} alt="" /></button> */}
-                    <button className="btnDetailBook2" >Read Book <img src={IconV} alt="" /></button>
+                    <button className="btnDetailBook2" onClick={()=>{navigate(`/readbook/${book.id}`)}} >Read Book <img src={IconV} alt="" /></button>
+                
                 </div>
             </div>
-        </div>
+        </div> 
     )
 }
 

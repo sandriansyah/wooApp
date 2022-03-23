@@ -1,4 +1,4 @@
-const {user} = require("../../models")
+const {user,profile} = require("../../models")
 const joi = require("joi")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
@@ -43,6 +43,14 @@ exports.register= async (req,res)=>{
             email: req.body.email,
             status: "user",
             password:hashedPassword
+        })
+
+        const createProfile = await profile.create({
+            gender:"",
+            phoneNumber:"",
+            address:"",
+            fotoProfile:"defaultProfile.png",
+            idUser: createUser.id,
         })
 
         const dataToken = {

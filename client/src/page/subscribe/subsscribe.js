@@ -2,12 +2,12 @@ import "./subscribe.css";
 import Profile from "../../component/profile/profile";
 import Logo2 from "../../media/Wow.png";
 import ImgFile from "../../media/Vector.png";
-import {Button} from "react-bootstrap"
-// import BtnSendSubs from "../../component/button/buttonSendSubscribe"
+import {Button, Modal} from "react-bootstrap"
 import { UserContext } from "../../context/userContex";
 
 import {API,setAuthToken} from "../../config/api"
 import { useContext, useState,useEffect } from "react";
+import { Navigate } from "react-router-dom";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token)
@@ -16,12 +16,20 @@ if (localStorage.token) {
 function Subscribe() {
 
   const [user,setUser] = useContext(UserContext)
-  console.log(user);
+  const [show,setShow] =useState(false)
 
   const [form,setForm] = useState({
     numberAccount:"",
     transferProof:"",
   })
+
+  const closeModal = ()=>{
+    setShow(false)
+    setForm({
+      numberAccount:"",
+      transferProof:"",
+    })
+  }
 
   const handleChange = (e)=>{
     setForm({
@@ -42,20 +50,19 @@ function Subscribe() {
         "Content-type": "multipart/form-data", 
         }, 
     }; 
-
     const formData = new FormData();
     formData.set("numberAccount",form.numberAccount);
     formData.set("transferProof",form.transferProof[0],form.transferProof[0].name);
 
-   
     console.log(form.numberAccount);
     console.log(form.transferProof[0].name);
-    // transferProof
-    console.log(formData);
 
     const response = await API.post("/transaction",formData,config)
-    console.log(response);
 
+    console.log(response);
+    if(response.status === 200){
+      setShow(true)
+    }
 
     } catch (error) {
       console.log(error);
@@ -64,6 +71,12 @@ function Subscribe() {
 
 
   return (
+    <div>
+
+    <Modal className="mt-5" show={show} onHide={closeModal}>
+        <p className="text-success fw-bold m-4">Thank you for subscribing to premium, your premium package will be active after our admin approves your transaction, thank you</p>
+    </Modal>
+
     <div className="subscribe">
       <div className="subscribeLeft">
         <Profile />
@@ -93,7 +106,7 @@ function Subscribe() {
             />
             <label>
               Attache proof of transfer
-              <input className="fileInput" type="file" name="transferProof" onChange={handleChange}/>
+              <input className="fileInput" type="file" name="transferProof" onChange={handleChange} />
               <img src={ImgFile} alt="" />
             </label>
           </div>
@@ -102,6 +115,7 @@ function Subscribe() {
           {/* <BtnSendSubs />  */}
         </form>
       </div>
+    </div>
     </div>
   );
 }

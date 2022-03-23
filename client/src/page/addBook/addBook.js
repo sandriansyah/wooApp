@@ -27,7 +27,8 @@ function AddBook(){
     }); 
 
     const handleCloseModal = () => {
-        setShowSuccess(false)
+        setShowSuccess(false);
+        navigate("/home")
     }
 
     
@@ -37,6 +38,7 @@ function AddBook(){
         [e.target.name]: 
             e.target.type === "file" ? e.target.files : e.target.value, 
         }); 
+        console.log(form);
     }; 
     
     const handleSubmit = async (e) => { 
@@ -60,7 +62,7 @@ function AddBook(){
         formData.set("bookFile", form.bookFile[0], form.bookFile[0].name); 
         formData.set("imgCover", form.imgCover[0], form.imgCover[0].name); 
     
-        // console.log(formData); 
+        console.log(formData); 
           // Insert data user to database 
         const response = await API.post("/book", formData, config); 
 
@@ -85,10 +87,10 @@ function AddBook(){
     return(
         <div className="addBook">
 
-            <Modal className="mt-5" show={showSuccess} onClick={handleCloseModal} >
+            <Modal className="mt-5" show={showSuccess} onClick={handleCloseModal} onHide={handleCloseModal} >
                 <ModalBody className=" fw-bold text-primary">
-                congrate . . ! <br/>
-                you have added a new book
+                selamat . . ! <br/>
+                kamu sudah menambahkan buku baru
                 </ModalBody>          
             </Modal>
 

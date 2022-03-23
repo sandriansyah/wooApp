@@ -28,18 +28,11 @@
 
 .imgProfile img {
     width: 75px;
-    /* box-shadow: 0 0 15px black; */
-    /* border: 1px rgb(199, 16, 16); */
-    margin-left: -72px;
-    margin-bottom: 60px;  /* pergeseran foto profile */    
-}
-
-.imgProfile button{
-    width: 70px;
-    height: 70px;
-    border-radius: 70px;
-    box-shadow: 0 0 15px black;
-    border: none;
+    height: 75px;
+    border-radius: 75px;
+    box-shadow: 0 0 10px black;
+    margin-top: 20px;
+    margin-bottom: 20px;   
 }
 
 .profileIcon{

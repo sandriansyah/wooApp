@@ -44,7 +44,11 @@ function App() {
     //   } else if (state.user.status == "user") {
     //     navigate("/home");
     //   }
-    //  }
+    // }
+    if(!localStorage.token){
+      navigate("/")
+    }
+
   }, [state])
 
   const checkUser = async()=>{
@@ -86,10 +90,9 @@ function App() {
           <Route exact path="/home" element={<AfterLogin/>} />        
           <Route exact path="/subscribe" element={<Subscribe/>} />
           <Route exact path="/bookdetail/:id" element={<DetailBook/>} />
-          <Route exact path="/readbook" element={<ReadBook/>} />
+          <Route exact path="/readbook/:id" element={<ReadBook/>} />
           <Route exact path="/addbook" element={<AddBook/>} />
           <Route exact path="/listtrans" element={<ListTrans/>} />  
-
           <Route exact path="/profile" element={<ProfileActiveSubscribe/>} /> 
 
 

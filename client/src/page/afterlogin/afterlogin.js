@@ -23,14 +23,9 @@ function AfterLogin() {
     const navigate=useNavigate()
 
     const [show, setShow] = useState(false);
-
+    const [dataUser,setDataUser] = useState({})
     const handleClose = () =>{
-
       setShow(false);
-
-      // if(state.isSubs){
-      //   navigate("/detailbook")
-      // }
     } 
     
     const getBooks = async()=>{
@@ -43,12 +38,28 @@ function AfterLogin() {
       }
     }
 
+    const getUser = async()=>{
+      try {
+        const response = await API.get("/user") 
+        setDataUser(response.data.data)
+  
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     useEffect(()=>{
       getBooks()
+      getUser()
     },[])
 
     const handleDetail = (id) => {
-      navigate(`/bookdetail/${id}`)
+
+      if(dataUser.isSubs =="true"){
+        navigate(`/bookdetail/${id}`)
+      }else{
+        setShow(true)
+      }     
     }
 
 

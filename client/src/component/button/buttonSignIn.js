@@ -1,7 +1,7 @@
 import "./buttonSignIn.css"
 import {useState,useContext} from "react"
 import {Modal,Alert} from "react-bootstrap"
-import {useNavigate} from "react-router-dom"
+import {renderMatches, useNavigate} from "react-router-dom"
 import {ShowModalContext} from "../../context/showModalContext"
 import {UserContext} from "../../context/userContex"
 
@@ -72,9 +72,8 @@ function BtnSignIn() {
     }
 
     const handleSubmit = async(e)=>{
-        try {
-            
-         e.preventDefault();
+        try {           
+        e.preventDefault();
 
         // configuratton content-type
         const config ={
@@ -96,11 +95,9 @@ function BtnSignIn() {
                 type:"LOGIN_SUCCESS",
                 payload: response.data.data
             })
-
             const alert =   <Alert variant="success" className="py-1">
                                 success
                             </Alert>
-
             setMessage(alert)
 
             // navigate("/home")
@@ -114,6 +111,7 @@ function BtnSignIn() {
 
         //chech status
         if(response.data.data.status === "user"){
+
             navigate("/home")
         }else{
             navigate("/listtrans")

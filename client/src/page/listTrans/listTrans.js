@@ -41,6 +41,7 @@ function ListTrans(){
 
     const approveTrans = async(id,idUser)=>{
         try {
+
             const config = {
                 headers: {
                     "Content-type": "application/json",

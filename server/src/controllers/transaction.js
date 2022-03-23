@@ -4,41 +4,52 @@ const{transaction,user} = require("../../models")
 exports.addTransaction =async(req,res)=>{
     try {
         const data = req.body 
-        // console.log(req.file);
-        const addData = await transaction.create({
-            ...data,
-            transferProof: req.file.filename, 
-            remainingActive:0,
-            // userStatus:"noActive",
-            paymentStatus:"pending",
-            idUser: req.user.id,
-        })
 
-        
-        console.log(req.file);
-
-        const dataTransaction = await user.findOne({
+        const findingdata = await transaction.findOne({
             where:{
-                id: addData.idUser
-            },
-            attributes:{
-                exclude:["password","createdAt","updatedAt"]
-            },
-            include:{
-                model: transaction,
-                as:"transaction",
-                attributes:{
-                    exclude:["createdAt","updatedAt"]
-                }
+                idUser: req.user.id,
             }
         })
 
-        res.send({
-            status:"success",
-            user:{
-                transaction:dataTransaction
-            }
-        })
+        if(!findingdata){
+            const addData = await transaction.create({
+                ...data,
+                transferProof: req.file.filename, 
+                remainingActive:0,
+                // userStatus:"noActive",
+                paymentStatus:"pending",
+                idUser: req.user.id,
+            });
+
+            const dataTransaction = await user.findOne({
+                where:{
+                    id: addData.idUser
+                },
+                attributes:{
+                    exclude:["password","createdAt","updatedAt"]
+                },
+                include:{
+                    model: transaction,
+                    as:"transaction",
+                    attributes:{
+                        exclude:["createdAt","updatedAt"]
+                    }
+                }
+            });
+
+            res.send({
+                status:"success",
+                user:{
+                    transaction:dataTransaction
+                }
+            })
+        } else{
+            res.send({
+                status:"failed",
+                message:"akun kamu masih dalam status berlangganan"
+            })
+        }
+
 
     } catch (error) {
         console.log(error);

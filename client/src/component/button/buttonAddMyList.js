@@ -1,31 +1,45 @@
-import { useContext } from "react"
+import { useContext,useState } from "react"
 import IconSaveList from "../../media/saveList.png"
 import "./buttonAddMyList.css"
 import {MyListBookContext} from "../../context/myListBookContex"
-import {dataBook} from "../../page/fakeData"
 import {useNavigate} from "react-router-dom"
 
+import {API} from "../../config/api"
 
-function ButtonAddMyList(){
+function ButtonAddMyList(props){
     // console.log(dataBook[0])
     const navigate=useNavigate()
 
-    const[state,dispacth] = useContext(MyListBookContext)
-
-    const data = state.dataListBook
-
-    function handleButton(){
-        
-        data.push(dataBook[2])  
-        
-        dispacth({
-            type:'MY_LIST_BOOK',
-            payload:data
-        })
+    const id = {
+        idBook: props.idBook
     }
 
-        
-            navigate("/profile")
+    const [book,setBook] = useState({
+        idBook: props.idBook,
+    })
+
+
+    const handleButton= async(e)=>{
+
+        try {
+            e.preventDefault();
+            const config = { 
+                headers: { 
+                "Content-type": "application/json", 
+                }, 
+            };
+            const body = JSON.stringify(id)
+            const response = await API.post("/mylistbook",body,config)
+            console.log(response);
+            console.log(body);
+            console.log(book);
+            console.log(id);
+            
+        } catch (error) {
+            console.log(error); 
+        }
+
+    }
         
 
     return(

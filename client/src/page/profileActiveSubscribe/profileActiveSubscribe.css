@@ -27,7 +27,7 @@
     justify-content: space-between;
     background-color: #FFD9D9;
     border-radius: 10px;
-    padding: 10px 30px;
+    padding: 20px 30px;
 }
 
 .detailProfile .profileUser .profileUserLeft .data{
@@ -46,8 +46,17 @@
     margin-bottom: 0px;
 }
 
+.detailProfile .profileUser .profileUserRight{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 30px;
+}
+
 .detailProfile .profileUser .profileUserRight img{
     border-radius: 5px;
+    width: 180px;
+    height: 180px;
 }
 
 .detailProfile .profileUser .profileUserRight .btnEditProfile button{
@@ -63,6 +72,12 @@
 .myListBook{
     width: 90%;
     margin: auto;
+}
+
+.myListBook .bookList img{
+    width: 200px;
+    height: 300px;
+    border-radius: 8px;
 }
 
 .myListBook h1{

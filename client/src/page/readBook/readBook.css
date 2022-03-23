@@ -1,6 +1,16 @@
 .readBook{
-    background-color: #F2F2F2;
+    height: 100vh;
     padding:0 30px 60px 30px;
+    display: flex;
+}
+
+.readBook .kiri{
+    flex: 20%;
+    z-index: 999;
+}
+
+.readBook .kanan{
+    flex: 80%;
 }
 
 .readBook .readBookLogo img{

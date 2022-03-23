@@ -61,7 +61,7 @@ exports.getBooks = async (req,res)=>{
         dataBooks = dataBooks.map((book)=>{
             return{
                 ...book,
-                imgCover:path + book.imgCover
+                imgCover:path + book.imgCover 
             }
         })
  
@@ -90,7 +90,15 @@ exports.getBook = async(req,res)=>{
             }
         })
 
-        // dataBook= JSON.parse(JSON.stringify(dataBook))
+        dataBook= JSON.parse(JSON.stringify(dataBook))
+
+        const path = "http://localhost:5000/uploads/imgCover/"
+
+        dataBook = {
+            ...dataBook, 
+            imgCover: path + dataBook.imgCover,
+        }
+
 
         res.send({
             status:"success",

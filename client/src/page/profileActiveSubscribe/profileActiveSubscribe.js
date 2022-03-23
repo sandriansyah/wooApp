@@ -2,7 +2,7 @@ import React,{useContext, useState,useEffect} from "react";
 import {useNavigate} from "react-router-dom"
 import "./profileActiveSubscribe.css"
 import Profile from "../../component/profile/profile";
-import {Container,Row,Col} from "react-bootstrap"
+import {Container,Row,Col,Modal,Form,Button,Alert} from "react-bootstrap"
 import MailIcon from "../../media/mail.png"
 import GenderIcon from "../../media/gender.png"
 import PhoneIcon from "../../media/phone.png"
@@ -22,12 +22,10 @@ if (localStorage.token) {
 function ProfileActiveSubscribe() {
 
 const [myBooks,setMyBooks] = useState([])
+const [profile,setProfile] = useState([])
+const [user,setUser] = useState([])
 
 const navigate = useNavigate()
-
-function handleReadBook(){
-    navigate("/readbook")
-}
 
 const [state,dispacth] = useContext(MyListBookContext)
 // console.log(state);
@@ -36,7 +34,25 @@ const [state,dispacth] = useContext(MyListBookContext)
         try {
             const response = await API.get("/myListBook")
             setMyBooks(response.data.data)
-            console.log(myBooks);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const getProfile= async()=>{
+        try {
+            const response = await API.get("/profile")
+            setProfile(response.data.data)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const getUser= async()=>{
+        try {
+            const response = await API.get("/user")
+            // console.log(response.data.data);
+            setUser(response.data.data)
         } catch (error) {
             console.log(error);
         }
@@ -44,17 +60,106 @@ const [state,dispacth] = useContext(MyListBookContext)
 
     useEffect(()=>{
         getMyBooks()
+        getProfile()
+        getUser()
     },[])
 
+    const [show,setShow]=useState(false)
+    const handleEditProfile = ()=>{
+        setShow(true)
+        navigate()
+    }
+
+    const handleCloseForm = ()=>{
+        setShow(false);
+        setMessage(null)
+    }
+
+    const [message,setMessage] = useState(null)
+    const [form,setForm]=useState({
+        gender:"",
+        phoneNumber:"",
+        address:"",
+        fotoProfile:"",
+    })
+
+    const handleChange = (e) =>{
+        setForm({
+            ...form,
+            [e.target.name]: 
+                e.target.type === "file" ? e.target.files : e.target.value
+        })
+    }
+
+    const handleSubmit= async (e)=>{
+        try {
+            e.preventDefault()
+
+            const config = {
+                headers: { 
+                    "Content-type": "multipart/form-data", 
+                    },
+            }
+
+            const formData = new FormData();
+            formData.set("gender",form.gender);
+            formData.set("phoneNumber",form.phoneNumber);
+            formData.set("address",form.address);
+            formData.set("fotoProfile",form.fotoProfile[0],form.fotoProfile[0].name);
+
+            const response = await API.patch("/profile",formData,config)
+            console.log(response);
+
+            if(response === 200){
+                const alert = <Alert variant="success" className="py-1" > Edit profile success </Alert>
+                setMessage(alert)
+            }else{
+                const alert = <Alert variant="danger" className="py-1"> Edit profile Failed </Alert>
+                setMessage(alert)
+            }
+
+        } catch (error) {
+            console.log(error);
+            const alert = <Alert variant="danger" className="py-1"> Edit profile Failed </Alert>
+                setMessage(alert)
+        }
+    }
+
     return (
-        // <div className="ProfileActSub">
-        //     <div className="ProfileActSubRight">
-        //         <Profile />
-        //     </div>
-        //     <div className="ProfileActSubLeft">
-        //         tes
-        //     </div>
-        // </div>
+
+        <div>
+
+        <Modal show={show} onHide={handleCloseForm}>
+            <Form className="p-3" onSubmit={handleSubmit}>
+                {message}
+                <h1>Edit Profile</h1>
+                <Form.Select name="gender" className="bg-light shadow-none" aria-label="Default select example" onChange={handleChange}>
+                    <option>select your gender</option>
+                    <option value="male">male</option>
+                    <option value="famale">famale</option>
+                </Form.Select>
+
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label >Phone Number</Form.Label>
+                    <Form.Control name="phoneNumber" className="bg-light shadow-none" type="text" placeholder="Phone Number" onChange={handleChange}/>
+                </Form.Group>
+    
+                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control name="address" className="bg-light shadow-none" as="textarea" rows={3} onChange={handleChange}/>
+                </Form.Group>
+
+                <Form.Group controlId="formFileSm" className="mb-3">
+                    <Form.Label>Image Profile</Form.Label>
+                    <Form.Control name="fotoProfile" className="bg-light shadow-none" type="file" size="sm" onChange={handleChange}/>
+                </Form.Group>
+
+                <div>
+                    <Button type="submit" style={{width:"100%"}} className="shadow-none" variant="danger">Edit</Button>
+                </div>
+            </Form>
+        </Modal>
+        
         <Container fluid className="con">
             <Row className="row">
                 <Col className="col position-relative " sm={2}>
@@ -73,7 +178,7 @@ const [state,dispacth] = useContext(MyListBookContext)
                                         <img src={MailIcon} alt="" />
                                     </div>
                                     <div className="dataProfile">
-                                        <p> <b>egigans@gmail.com</b> </p>
+                                        <p> <b>{user.email}</b> </p>
                                         <p>Email</p>
                                     </div>
                                 </div>
@@ -83,7 +188,7 @@ const [state,dispacth] = useContext(MyListBookContext)
                                         <img src={GenderIcon} alt="" />
                                     </div>
                                     <div className="dataProfile">
-                                        <p> <b>Male</b> </p>
+                                        <p> <b>{profile.gender}</b> </p>
                                         <p>Gender</p>
                                     </div>
                                 </div>
@@ -93,7 +198,7 @@ const [state,dispacth] = useContext(MyListBookContext)
                                         <img src={PhoneIcon} alt="" />
                                     </div>
                                     <div className="dataProfile">
-                                        <p> <b>0812-8623-8911</b> </p>
+                                        <p> <b>{profile.phoneNumber}</b> </p>
                                         <p>Mobile Phone</p>
                                     </div>
                                 </div>
@@ -103,7 +208,7 @@ const [state,dispacth] = useContext(MyListBookContext)
                                         <img src={AddresIcon} alt="" />
                                     </div>
                                     <div className="dataProfile">
-                                        <p> <b>Perumahan Permata Bintaro Residence C-3</b> </p>
+                                        <p> <b>{profile.address}</b> </p>
                                         <p>Address</p>
                                     </div>
                                 </div>
@@ -111,10 +216,10 @@ const [state,dispacth] = useContext(MyListBookContext)
                             </div>
                             <div className="profileUserRight">
                                 <div className="imageProfie">
-                                    <img src={ImageProfile} alt="" />
+                                    <img src={profile.fotoProfile} alt="" />
                                 </div>
                                 <div className="btnEditProfile">
-                                    <button>Edit Profile</button>
+                                    <button onClick={handleEditProfile}>Edit Profile</button>
                                 </div>
                             </div>
                         </div>
@@ -126,9 +231,8 @@ const [state,dispacth] = useContext(MyListBookContext)
                         <div className="row d-flex text-center ">
                             
                                 {myBooks.map((item,index)=>{
-                                console.log(item)
                                 return(
-                                    <div onClick={handleReadBook} key={index} className=" col-3">
+                                    <div onClick={()=>{navigate(`/bookdetail/${item.book.id}`)}} key={index} className="bookList col-3">
                                         <img src={`http://localhost:5000/uploads/imgCover/${item.book.imgCover}`} alt="" />
                                         <div className="text-start ms-3">
                                             <h3>{item.book.title}</h3>
@@ -143,6 +247,8 @@ const [state,dispacth] = useContext(MyListBookContext)
                 </Col>
             </Row>
         </Container>
+
+        </div>
     );
 }
 

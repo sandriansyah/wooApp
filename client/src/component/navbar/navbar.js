@@ -3,7 +3,8 @@ import {useNavigate} from "react-router-dom"
 import "./navbar.css"
 import Logo from "../../media/Icon.png"
 import IconAddBook from "../../media/AddBook2.png"
-import IconLogout from "../../media/logoutRed.png"
+import IconLogout from "../../media/logoutRed.png" 
+import IconList from "../../media/list.png" 
 import NavProfile from "../../media/Ellipse 2.png"
 import {Dropdown,Navbar} from "react-bootstrap"
 import {UserContext} from "../../context/userContex"
@@ -44,6 +45,9 @@ function Navbarr(){
                     <Dropdown.Menu className="dropdownMenu" >
                         <Dropdown.Item  href="/addBook">
                             <img src={IconAddBook} alt=""/> Add Book
+                        </Dropdown.Item>
+                        <Dropdown.Item  href="/listtrans">
+                            <img src={IconList} alt=""/> Transaction
                         </Dropdown.Item>
                         <hr/>
                         <Dropdown.Item  onClick={handleLogout}>

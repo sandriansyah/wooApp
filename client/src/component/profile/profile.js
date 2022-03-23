@@ -22,14 +22,14 @@ function Profile() {
   // const [state,dispacth] =useContext(SubsContext)
   const [showModal,setShowModal] =useContext(ShowModalContext)
   const [user,setUser] =useContext(UserContext)
-  const [dataUser,setDataUser] = useState([])
+  const [dataUser,setDataUser] = useState({})
+  const [profile,setProfile] = useState([])
 
-  const getUser = async(req,res)=>{
 
+
+  const getUser = async()=>{
     try {
-
       const response = await API.get("/user") 
-      console.log(response);
       setDataUser(response.data.data)
 
     } catch (error) {
@@ -37,8 +37,18 @@ function Profile() {
     }
   }
 
+  const getProfile= async()=>{
+    try {
+        const response = await API.get("/profile")
+        setProfile(response.data.data)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
  useEffect(()=>{
   getUser()
+  getProfile()
  },[])
 
   const navigate=useNavigate()
@@ -48,17 +58,11 @@ function Profile() {
     setUser({
       type:'LOGOUT',
     })
-    
-    // dispacth({
-    //   type:'SUBSCRIBED',
-    //   payload:false
-    // })
 
     setShowModal({
       type:'SHOW_MODAL',
       payload:false
     })
-
       navigate("/")
     
   }
@@ -83,12 +87,12 @@ function Profile() {
           </Link>         
         </div>
         <div className="imgProfile">
-          <button></button>
-          <img src={ImgProfile} alt="" />
+          <img src={profile.fotoProfile} alt="" />
         </div>
         <h3>{dataUser.fullName}</h3>
         <p>
           {user.user.isSubs=="true" ? <p className="text-success" >Subscribed</p>: <p>not subscribed Yet</p>  }</p>
+          {dataUser.status=="admin"? <button className="bg-danger text-light w-100 rounded" onClick={()=>{navigate("/listtrans")}}>Admin</button> : null }
       </div>
       <hr /> 
         <button onClick={handleProfile}>
