@@ -39,8 +39,6 @@ function Subscribe() {
     })
   }
 
-  console.log(form);
-
   const handleSubmit = async (e)=>{
     try {
       e.preventDefault();

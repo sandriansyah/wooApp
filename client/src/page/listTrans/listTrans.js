@@ -43,7 +43,6 @@ function ListTrans(){
             setTimeCoba(response.data.data.transaction[0].timeApprove)
             let distence = time - timeCoba
 
-            console.log(timeCoba);
         } catch (error) {
             console.log(error);
         }
@@ -73,7 +72,6 @@ function ListTrans(){
 
             const response = await API.patch(`/transaction/${id}`,detailTrans,config) 
             // const response = await API.patch(`/transaction/${id}`,detailTrans,config) 
-            console.log(response);
             getTransaction()
             Navigate("/listtrans")
 

@@ -45,7 +45,6 @@ function AfterLogin() {
       try {
         const response = await API.get("/user") 
         setDataUser(response.data.data)
-        console.log(dataUser);
   
       } catch (error) {
         console.log(error);

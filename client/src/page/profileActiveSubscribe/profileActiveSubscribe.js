@@ -19,7 +19,6 @@ function ProfileActiveSubscribe() {
 const [myBooks,setMyBooks] = useState([])
 const [profile,setProfile] = useState([])
 const [user,setUser] = useState([])
-const [reload,setReload] = useState(false)
 
 const navigate = useNavigate()
 
@@ -125,7 +124,7 @@ const navigate = useNavigate()
 
     return (
 
-        <div onLoad={reload}>
+        <div>
 
         <Modal show={show} onHide={handleCloseForm}>
             <Form className="p-3" onSubmit={handleSubmit}>

@@ -5,7 +5,7 @@ import {renderMatches, useNavigate} from "react-router-dom"
 import {ShowModalContext} from "../../context/showModalContext"
 import {UserContext} from "../../context/userContex"
 
-import {API} from "../../config/api"
+import {API, setAuthToken} from "../../config/api"
 
 function BtnSignIn() {
 
@@ -87,7 +87,7 @@ function BtnSignIn() {
  
         //insert data to database
         const response = await API.post("/login",body,config)
-        console.log(response);
+        setAuthToken(response.data.data.token)
 
         if(response?.status == 200){
   

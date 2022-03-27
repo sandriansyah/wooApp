@@ -32,14 +32,12 @@ function Profile() {
     try {
       const response = await API.get("/user") 
       setDataUser(response.data.data)
-      console.log(response);
-      console.log(dataUser);
  
     } catch (error) {
       console.log(error);
     }
   }
-
+ 
   useEffect(()=>{
     getUser()
    },[])
@@ -50,7 +48,6 @@ function Profile() {
     try {
         const response = await API.get("/profile")
         setProfile(response.data.data)
-        console.log(profile);
     } catch (error) {
         console.log(error);
     }
