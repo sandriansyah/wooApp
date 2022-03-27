@@ -15,7 +15,6 @@ import {API} from "../../config/api"
 
 function AfterLogin() {
 
-
   const [user,setUser] = useContext(UserContext)
   // const [state,dispacth] = useContext(SubsContext)
   const [books,setBooks] = useState([])
@@ -23,7 +22,7 @@ function AfterLogin() {
     const navigate=useNavigate()
 
     const [show, setShow] = useState(false);
-    const [dataUser,setDataUser] = useState({})
+    const [dataUser,setDataUser] = useState("")
     const handleClose = () =>{
       setShow(false);
     } 
@@ -38,10 +37,15 @@ function AfterLogin() {
       }
     }
 
+    useEffect(()=>{
+      getBooks()
+    },[])
+
     const getUser = async()=>{
       try {
         const response = await API.get("/user") 
         setDataUser(response.data.data)
+        console.log(dataUser);
   
       } catch (error) {
         console.log(error);
@@ -49,7 +53,6 @@ function AfterLogin() {
     }
 
     useEffect(()=>{
-      getBooks()
       getUser()
     },[])
 
@@ -75,7 +78,7 @@ function AfterLogin() {
 
       <div className="afterLoginLeft position-relative">
         <div className="position-fixed">
-          <Profile />
+          <Profile userData ={dataUser}/>
         </div>
       </div>
       <div className="afterLoginRight">

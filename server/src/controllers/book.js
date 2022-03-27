@@ -48,10 +48,10 @@ exports.addBook = async (req,res) => {
 
 exports.getBooks = async (req,res)=>{
     try {
-        let dataBooks = await book.findAll({
-            attributes:{
-                exclude:["createdAt","updatedAt"]
-            }
+        let dataBooks = await book.findAll({ order:[["createdAt","DESC"]]
+            // attributes:{
+            //     exclude:["createdAt","updatedAt"]
+            // }
         })
 
         dataBooks = JSON.parse(JSON.stringify(dataBooks))

@@ -24,6 +24,7 @@
 .modalSignIn input{
     height: 50px;
     margin-top: 20px;
+    padding-left: 15px;
     border-radius: 5px;
     background-color: #d2d2d2;
     width: 100%;

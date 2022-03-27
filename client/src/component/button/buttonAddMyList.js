@@ -1,7 +1,6 @@
 import { useContext,useState } from "react"
 import IconSaveList from "../../media/saveList.png"
 import "./buttonAddMyList.css"
-import {MyListBookContext} from "../../context/myListBookContex"
 import {useNavigate} from "react-router-dom"
 
 import {API} from "../../config/api"
@@ -30,11 +29,8 @@ function ButtonAddMyList(props){
             };
             const body = JSON.stringify(id)
             const response = await API.post("/mylistbook",body,config)
-            console.log(response);
-            console.log(body);
-            console.log(book);
-            console.log(id);
             
+            navigate("/profile")
         } catch (error) {
             console.log(error); 
         }

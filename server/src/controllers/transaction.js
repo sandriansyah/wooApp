@@ -156,6 +156,42 @@ exports.getAllTransaction = async (req,res)=>{
     }
 }
 
+exports.getAllTransactionActive = async (req,res)=>{
+    try {
+        const data = await transaction.findAll(
+            {where:{
+                userStatus:"active"
+            }
+            },
+            {
+            attributes:{
+                exclude:["createdAt","updatedAt"]
+            },
+            include:{
+                model:user,
+                as:"user",
+                attributes:{
+                    exclude:["password","createdAt","updatedAt"]
+                }
+            }
+        })
+
+        res.send({
+            status:"success",
+            data:{
+                transaction: data
+            }
+        })
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            status:"failed",
+            message:"server error"
+        })
+    }
+}
+
 exports.getTransaction = async (req,res)=>{
     try {
         const {id} = req.params
@@ -188,3 +224,4 @@ exports.getTransaction = async (req,res)=>{
         })
     }
 }
+

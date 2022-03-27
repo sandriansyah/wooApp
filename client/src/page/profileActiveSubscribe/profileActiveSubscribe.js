@@ -7,11 +7,6 @@ import MailIcon from "../../media/mail.png"
 import GenderIcon from "../../media/gender.png"
 import PhoneIcon from "../../media/phone.png"
 import AddresIcon from "../../media/addres.png"
-import ImageProfile from "../../media/Rectangle 12.png"
-import MyListBook1 from "../../media/Rectangle 2.png"
-import { MyListBookContext } from "../../context/myListBookContex";
- 
-// export const myListBook=['hallo']
 
 import {API,setAuthToken} from "../../config/api"
 
@@ -24,11 +19,10 @@ function ProfileActiveSubscribe() {
 const [myBooks,setMyBooks] = useState([])
 const [profile,setProfile] = useState([])
 const [user,setUser] = useState([])
+const [reload,setReload] = useState(false)
 
 const navigate = useNavigate()
 
-const [state,dispacth] = useContext(MyListBookContext)
-// console.log(state);
 
     const getMyBooks = async()=>{
         try {
@@ -73,6 +67,8 @@ const [state,dispacth] = useContext(MyListBookContext)
     const handleCloseForm = ()=>{
         setShow(false);
         setMessage(null)
+        getProfile()
+        getUser()
     }
 
     const [message,setMessage] = useState(null)
@@ -110,13 +106,15 @@ const [state,dispacth] = useContext(MyListBookContext)
             const response = await API.patch("/profile",formData,config)
             console.log(response);
 
-            if(response === 200){
-                const alert = <Alert variant="success" className="py-1" > Edit profile success </Alert>
-                setMessage(alert)
+            if(response.data.status == "edit success"){
+                const alertSuccess = <Alert variant="success" className="py-1" > Edit profile success </Alert>
+                return setMessage(alertSuccess)
+                
             }else{
                 const alert = <Alert variant="danger" className="py-1"> Edit profile Failed </Alert>
                 setMessage(alert)
             }
+
 
         } catch (error) {
             console.log(error);
@@ -127,7 +125,7 @@ const [state,dispacth] = useContext(MyListBookContext)
 
     return (
 
-        <div>
+        <div onLoad={reload}>
 
         <Modal show={show} onHide={handleCloseForm}>
             <Form className="p-3" onSubmit={handleSubmit}>
@@ -136,7 +134,7 @@ const [state,dispacth] = useContext(MyListBookContext)
                 <Form.Select name="gender" className="bg-light shadow-none" aria-label="Default select example" onChange={handleChange}>
                     <option>select your gender</option>
                     <option value="male">male</option>
-                    <option value="famale">famale</option>
+                    <option value="female">female</option>
                 </Form.Select>
 
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">

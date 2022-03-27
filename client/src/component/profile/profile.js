@@ -10,46 +10,56 @@ import {useNavigate,Link} from "react-router-dom"
 import {ShowModalContext} from "../../context/showModalContext"
 import {UserContext} from "../../context/userContex"
 
-import {API,setAuthToken} from "../../config/api"
+import {API} from "../../config/api"
 
-if (localStorage.token) {
-  setAuthToken(localStorage.token)
-}
+
 
 function Profile() {
+
+  // const userData = props.userData
+  // console.log(userData);
 
 
   // const [state,dispacth] =useContext(SubsContext)
   const [showModal,setShowModal] =useContext(ShowModalContext)
-  const [user,setUser] =useContext(UserContext)
-  const [dataUser,setDataUser] = useState({})
+  
+  const [dataUser,setDataUser] = useState("")
   const [profile,setProfile] = useState([])
 
 
-
+  const [user,setUser] =useContext(UserContext)
   const getUser = async()=>{
     try {
       const response = await API.get("/user") 
       setDataUser(response.data.data)
-
+      console.log(response);
+      console.log(dataUser);
+ 
     } catch (error) {
       console.log(error);
     }
   }
 
+  useEffect(()=>{
+    getUser()
+   },[])
+
+  
+
   const getProfile= async()=>{
     try {
         const response = await API.get("/profile")
         setProfile(response.data.data)
+        console.log(profile);
     } catch (error) {
         console.log(error);
     }
 }
 
  useEffect(()=>{
-  getUser()
   getProfile()
  },[])
+
 
   const navigate=useNavigate()
 
@@ -63,6 +73,9 @@ function Profile() {
       type:'SHOW_MODAL',
       payload:false
     })
+
+    setDataUser({})
+    setProfile({})
       navigate("/")
     
   }
@@ -77,7 +90,6 @@ function Profile() {
 
   // const [statusSubs,setStatusSubs] =useState(state)
   
-
   return (
     <div className="profile">
       <div className="sectionProfile">
@@ -90,8 +102,10 @@ function Profile() {
           <img src={profile.fotoProfile} alt="" />
         </div>
         <h3>{dataUser.fullName}</h3>
-        <p>
-          {user.user.isSubs=="true" ? <p className="text-success" >Subscribed</p>: <p>not subscribed Yet</p>  }</p>
+        
+          {dataUser.status == "admin" ? null : dataUser.isSubs=="true" && dataUser.status=="user" ? <p className="text-success" >Subscribed</p>: 
+          <p>not subscribed Yet</p>}
+
           {dataUser.status=="admin"? <button className="bg-danger text-light w-100 rounded" onClick={()=>{navigate("/listtrans")}}>Admin</button> : null }
       </div>
       <hr /> 
@@ -106,6 +120,8 @@ function Profile() {
           </div>
         </button>
         <br/>
+
+      {dataUser.status=="admin"? null :
         <button onClick={handleSubscribe}>
           <div className="subscribeIcon">
             <div className="icon">
@@ -115,7 +131,9 @@ function Profile() {
               <p>Subscribe</p>
             </div>
           </div>
-        </button>
+        </button> 
+        }
+
       <hr />
         <button onClick={handleLogOut}>
           <div className="logoutIcon">

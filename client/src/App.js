@@ -15,6 +15,7 @@ import AddBook from "./page/addBook/addBook";
 import ListTrans from "./page/listTrans/listTrans";
 import ProfileActiveSubscribe from "./page/profileActiveSubscribe/profileActiveSubscribe";
 // import PrivateSubs from "./page/privateRootPage/privetSubs";
+import PrivateAdmin from "./page/privateRootPage/privateAdmin";
 
 import {API,setAuthToken} from "./config/api"
 
@@ -29,7 +30,7 @@ function App() {
 
   // // Init user context here ...
   const [state, dispatch] = useContext(UserContext)
-  console.log(state);
+  // console.log(state);
 
   // // Redirect Auth here ...
   useEffect(() => {
@@ -82,7 +83,7 @@ function App() {
   return (
       // <Router>
 
-      <div>
+     
     
         <Routes>
 
@@ -91,17 +92,17 @@ function App() {
           <Route exact path="/subscribe" element={<Subscribe/>} />
           <Route exact path="/bookdetail/:id" element={<DetailBook/>} />
           <Route exact path="/readbook/:id" element={<ReadBook/>} />
-          <Route exact path="/addbook" element={<AddBook/>} />
-          <Route exact path="/listtrans" element={<ListTrans/>} />  
+          
           <Route exact path="/profile" element={<ProfileActiveSubscribe/>} /> 
 
 
-          {/* <Route exact path="/" element={<PrivateSubs/>} >
-                       
-          </Route> */}
+          <Route exact path="/" element={<PrivateAdmin/>} >
+            <Route exact path="/addbook" element={<AddBook/>} />
+            <Route exact path="/listtrans" element={<ListTrans/>} /> 
+          </Route>
 
         </Routes>
-        </div>
+        
       // </Router>
   );
 }

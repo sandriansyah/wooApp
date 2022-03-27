@@ -14,6 +14,9 @@ module.exports = {
       numberAccount: {
         type: Sequelize.STRING
       },
+      timeApprove: {
+        type: Sequelize.DATE
+      },
       remainingActive: {
         type: Sequelize.INTEGER
       },
