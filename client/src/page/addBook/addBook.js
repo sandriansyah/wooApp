@@ -5,6 +5,7 @@ import Navbarr from "../../component/navbar/navbar"
 import {Form} from "react-bootstrap"
 import IconFile from "../../media/Vector2.png"
 import IconAddBook from "../../media/AddBook.png"
+import Swal from "sweetalert2"
 
 import {API} from "../../config/api"
 import { useNavigate } from "react-router-dom"
@@ -69,15 +70,24 @@ function AddBook(){
         console.log(response);
 
         if(response.status === 200){
-            setShowSuccess(true)
-        }else{
-            setShowFailed(false)
+            // setShowSuccess(true)
+            Swal.fire(
+                'Good job!',
+                'You clicked the button!',
+                'success'
+              )
         }
         
 
         // navigate("/addbook")
         } catch (error) { 
         console.log(error); 
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+          })
+        
         } 
 
         

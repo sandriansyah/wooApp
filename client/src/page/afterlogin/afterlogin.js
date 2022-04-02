@@ -57,7 +57,7 @@ function AfterLogin() {
 
     const handleDetail = (id) => {
 
-      if(dataUser.isSubs =="true"){
+      if(dataUser.isSubs =="true" || dataUser.status == "admin"){
         navigate(`/bookdetail/${id}`)
       }else{
         setShow(true)

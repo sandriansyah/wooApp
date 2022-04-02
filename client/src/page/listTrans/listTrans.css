@@ -20,7 +20,7 @@
 }
 
 .listTrans .tableListTrans .rowHead{
-    border-bottom: solid 1px grey;
+    border-bottom: solid 2px rgb(8, 8, 8);
 }
 
 .listTrans .tableListTrans table{

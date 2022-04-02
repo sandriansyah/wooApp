@@ -16,10 +16,7 @@ function ReadBook(){
 const getBook = async ()=>{
     try {
         const findingBook = await API.get(`/book/${id}`)
-        console.log(findingBook.data.book);
-        console.log(findingBook.data.book.bookFile);
         setBook(findingBook.data.book)
-        console.log(book.bookFile);
     } catch (error) {
         console.log(error);
     }

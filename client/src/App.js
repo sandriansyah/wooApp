@@ -39,13 +39,13 @@ function App() {
     if (!state.isLogin) {
       navigate("/")
     } 
-    // else {
-    //   if (state.user.status == "admin") {
-    //     navigate("/listtrans");
-    //   } else if (state.user.status == "user") {
-    //     navigate("/home");
-    //   }
-    // }
+    else {
+      if (state.user.status == "admin") {
+        navigate("/listtrans");
+      } else if (state.user.status == "user") {
+        navigate("/home");
+      }
+    }
     if(!localStorage.token){
       navigate("/")
     }

@@ -59,12 +59,12 @@ function Navbarr(){
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu className="dropdownMenu" >
-                        <Dropdown.Item  href="/addBook">
-                            <img src={IconAddBook} alt=""/> Add Book
+                        <Dropdown.Item  onClick={()=>{navigate("/addbook")}}>
+                            <img src={IconAddBook}/> Add Book
                         </Dropdown.Item>
                         <hr/>
                         <Dropdown.Item  href="/listtrans">
-                            <img src={IconList} alt=""/> Transaction
+                            <img src={IconList}/> Transaction
                         </Dropdown.Item>
                         <hr/>
                         <Dropdown.Item  onClick={handleLogout}>

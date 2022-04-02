@@ -18,7 +18,7 @@ function ListTrans(){
     const [cancel,setCancel] = useState({
         userStatus:"",
         remainingActive:0,
-        paymentStatus:"",
+        paymentStatus:"cancel",
     })
 
     // const [idTrans,setIdTrans] = useState(null)
@@ -73,7 +73,7 @@ function ListTrans(){
             const response = await API.patch(`/transaction/${id}`,detailTrans,config) 
             // const response = await API.patch(`/transaction/${id}`,detailTrans,config) 
             getTransaction()
-            Navigate("/listtrans")
+            // Navigate("/listtrans")
 
             
 
@@ -140,9 +140,10 @@ function ListTrans(){
                             <p className="my-0 text-danger fw-bold">No-Active</p>}
                         </td>
                         <td>
-                            {item.paymentStatus =="approve"?
-                            <p className="my-0 text-success fw-bold" >Approve</p>:
-                            <p className="my-0 text-danger fw-bold" >Cancel</p> }
+                        {item.paymentStatus =="approve"?
+                                    <p className="my-0 text-success fw-bold" >Approve</p>:
+                                    item.paymentStatus =="cancel"? <p className="my-0 text-danger fw-bold" >Cancel</p>:
+                                    <p className="my-0 text-warning fw-bold" >Pending ..</p> }
                         </td>
                         <td>
                             <Dropdown>
@@ -163,7 +164,7 @@ function ListTrans(){
                             <tr className="rowBody2 " key = {item.id} >
                                 <td >{number}</td>
                                 <td>{item.user.fullName}</td>
-                                <td>{item.numberAccount}</td>
+                                <td >{item.numberAccount}</td>
                                 <td>{item.transferProof}</td>
                                 <td>{item.remainingActive}/Hari</td>
                                 <td> 
@@ -174,7 +175,8 @@ function ListTrans(){
                                 <td>
                                     {item.paymentStatus =="approve"?
                                     <p className="my-0 text-success fw-bold" >Approve</p>:
-                                    <p className="my-0 text-danger fw-bold" >Cancel</p> }
+                                    item.paymentStatus =="cancel"? <p className="my-0 text-danger fw-bold" >Cancel</p>:
+                                    <p className="my-0 text-warning fw-bold" >Pending ..</p> }
                                 </td>
                                 <td>
                                     <Dropdown>
@@ -183,8 +185,8 @@ function ListTrans(){
                                         </Dropdown.Toggle>
         
                                         <Dropdown.Menu>
-                                            <Dropdown.Item onClick={()=>{ approveTrans(item.id,item.idUser)}} style={{color:"#0ACF83",fontWeight:"bold"}} >Approved</Dropdown.Item>
-                                            <Dropdown.Item onClick={()=>{ cancelTrans(item.id,item.idUser)}} style={{color:"red",fontWeight:"bold"}}>Cancel</Dropdown.Item>
+                                            <Dropdown.Item onClick={()=>{ approveTrans(item.id)}} style={{color:"#0ACF83",fontWeight:"bold"}} >Approved</Dropdown.Item>
+                                            <Dropdown.Item onClick={()=>{ cancelTrans(item.id)}} style={{color:"red",fontWeight:"bold"}}>Cancel</Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </td>
